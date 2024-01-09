@@ -1,6 +1,6 @@
 package model;
 
-import ds.HeapPriorityQueue;
+import ds.heap.HeapPriorityQueue;
 
 import java.util.ArrayList;
 import java.util.Comparator;
