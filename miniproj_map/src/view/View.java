@@ -4,6 +4,7 @@ import Controller.DataHandler;
 import Controller.Editor;
 import Controller.Mapper;
 import Controller.SearchHandler;
+import exception.InvalidInputException;
 import model.FinDataFile;
 import model.Result;
 
@@ -61,7 +62,7 @@ public class View {
 
         src = "file\\in";
         dst = "file\\out";
-        sw = "stopwords.txt";
+        sw = "stp_words.txt";
         rgx = "[^a-z]+";
 
         edt = new Editor(rgx, sw);
@@ -82,9 +83,7 @@ public class View {
     }
 
     public void bscSearch(String s)
-            throws IOException {
-
-        //init(1);
+            throws InvalidInputException {
 
         Set<FinDataFile> res = sh.bscSearch(s);
 
@@ -97,29 +96,12 @@ public class View {
     }
 
     public void prtSearch(String s)
-            throws IOException {
-
-        //init(2);
+            throws InvalidInputException {
 
         ArrayList<Result> res = sh.prtSearch(s, edt);
 
         // out
         System.out.println(res.size());
-        /*
-        StringBuilder sb = new StringBuilder();
-        for (Result r : res) {
-            sb.append(r.getFdf().getName()).append(" ess: ");
-            for (Map.Entry<String, Integer> e : r.getEss().entrySet()) {
-                sb.append(e.getKey()).append(": ").append(e.getValue()).append("|");
-            }
-            System.out.println("\n");
-            for (Map.Entry<String, Integer> e : r.getOpt().entrySet()) {
-                sb.append(e.getKey()).append(": ").append(e.getValue()).append("|");
-            }
-            sb.append("\n\n");
-        }
-        System.out.println(sb);
-         */
         for (int i=0;i<res.size();i++) {
             System.out.println(res.get(i).toString());
         }
