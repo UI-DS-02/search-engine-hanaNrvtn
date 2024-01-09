@@ -96,8 +96,10 @@ public class DataHandler {
 
                 // edit
                 String[] arr = edt.split(txt);
-                if (swh == 2)
+                if (swh == 2){
                     arr = edt.clear(arr);
+
+                }
 
                 sb = new StringBuilder();
                 for (String s : arr)

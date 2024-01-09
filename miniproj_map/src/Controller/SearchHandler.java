@@ -1,5 +1,6 @@
 package Controller;
 
+import exception.InvalidInputException;
 import model.*;
 
 import java.util.*;
@@ -50,7 +51,8 @@ public class SearchHandler {
         return essSet;
     }
 
-    public Set<FinDataFile> bscSearch (String s) {
+    public Set<FinDataFile> bscSearch (String s)
+            throws InvalidInputException {
 
         Query q = new Query(s);
         return bscRes(
@@ -61,7 +63,8 @@ public class SearchHandler {
 
     public ArrayList<Result> prtSearch
             (String s, Editor edt)
-    {
+            throws InvalidInputException {
+
         Query q = new Query(s, edt);
         Set<FinDataFile> fdf = bscRes(
                 q.getEssWords(),

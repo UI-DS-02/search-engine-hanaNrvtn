@@ -47,7 +47,7 @@ public class Editor {
 
     public String[] clear(String[] arr) {
 
-        ArrayList<String> allWords = Stream.of(arr).
+            ArrayList<String> allWords = Stream.of(arr).
                 collect(Collectors.toCollection(ArrayList<String>::new));
         ArrayList<String> stpWords = Stream.of(this.sw).
                 collect(Collectors.toCollection(ArrayList<String>::new));

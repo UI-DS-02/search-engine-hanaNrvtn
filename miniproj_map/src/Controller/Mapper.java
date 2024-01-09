@@ -56,12 +56,20 @@ public class Mapper {
 
         for (String word : words) {
 
-            if (word.equals(words[0]) &&
-                    map.containsKey(word))
+            if(word.equals(words[0])) {
+                if(map.containsKey(word)) {
                     s.addAll(map.get(word));
-
+                    continue;
+                } else {
+                    return s;
+                }
+            }
             if (map.containsKey(word))
                 s.retainAll(map.get(word));
+            else {
+                s.clear();
+                return s;
+            }
         } return s;
     }
 
