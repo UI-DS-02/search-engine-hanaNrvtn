@@ -1,6 +1,7 @@
 package model;
 
 import Controller.Editor;
+import exception.InvalidInputException;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ public class Query {
     private String[] essWords;
     private String[] optWords;
     private String[] denWords;
+    private String[] stpWords;
     private Editor edt;
 
     // get & set
@@ -58,6 +60,14 @@ public class Query {
         this.denWords = denWords;
     }
 
+    public String[] getStpWords() {
+        return stpWords;
+    }
+
+    public void setStpWords(String[] stpWords) {
+        this.stpWords = stpWords;
+    }
+
     public Editor getEdt() {
         return edt;
     }
@@ -67,9 +77,11 @@ public class Query {
     }
 
     // cons 1
-    public Query(String q) {
+    public Query(String q)
+            throws InvalidInputException {
 
-        this.q = q;
+        this.q=q;
+        allWords = all(q);
         essWords = ess(q);
         optWords = opt(q);
         denWords = den(q);
@@ -77,13 +89,16 @@ public class Query {
     }
 
     // cons 2
-    public Query(String q, Editor edt) {
+    public Query(String q, Editor edt)
+            throws InvalidInputException {
 
         this.q = q;
         this.edt = edt;
+        allWords = all(q);
         essWords = edt.clear(ess(q));
         optWords = edt.clear(opt(q));
         denWords = edt.clear(den(q));
+        stpWords = stp();
 
     }
 
@@ -100,7 +115,8 @@ public class Query {
         return ess.toArray(new String[0]);
     }
 
-    public String[] opt(String q) {
+    public String[] opt(String q)
+            throws InvalidInputException {
 
         StringBuilder sb;
         String[] spl = q.split("\s");
@@ -108,6 +124,10 @@ public class Query {
 
         for (String s : spl)
             if (s.charAt(0) == '+') {
+
+                if(s.length()==1)
+                    throw new InvalidInputException();
+
                 sb = new StringBuilder(s);
                 s = sb.deleteCharAt(0).toString();
                 opt.add(s.toLowerCase());
@@ -116,7 +136,8 @@ public class Query {
         return opt.toArray(new String[0]);
     }
 
-    public String[] den(String q) {
+    public String[] den(String q)
+            throws InvalidInputException {
 
         StringBuilder sb;
         String[] spl = q.split("\s");
@@ -124,6 +145,10 @@ public class Query {
 
         for (String s : spl)
             if (s.charAt(0) == '-') {
+
+                if(s.length()==1)
+                    throw new InvalidInputException();
+
                 sb = new StringBuilder(s);
                 s = sb.deleteCharAt(0).toString();
                 den.add(s.toLowerCase());
@@ -131,5 +156,26 @@ public class Query {
 
         return den.toArray(new String[0]);
     }
-}
 
+    public String[] all(String q) {
+        StringBuilder sb;
+        String[] spl = q.split("\s");
+        ArrayList<String> all = new ArrayList<>();
+        for (String s : spl) {
+            all.add(s.toLowerCase());
+        }
+        return all.toArray(new String[0]);
+    }
+
+    public String[] stp() {
+        ArrayList<String> allWords = Stream.of(this.allWords).collect(Collectors.toCollection(ArrayList<String>::new));
+        ArrayList<String> essWords = Stream.of(this.essWords).collect(Collectors.toCollection(ArrayList<String>::new));
+        ArrayList<String> optWords = Stream.of(this.optWords).collect(Collectors.toCollection(ArrayList<String>::new));
+        ArrayList<String> denWords = Stream.of(this.denWords).collect(Collectors.toCollection(ArrayList<String>::new));
+        allWords.removeAll(essWords);
+        allWords.removeAll(optWords);
+        allWords.removeAll(denWords);
+        return allWords.toArray(new String[0]); //
+    }
+
+}

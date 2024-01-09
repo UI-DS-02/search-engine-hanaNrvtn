@@ -110,4 +110,8 @@ public class Result implements Comparable {
         return count;
     }
 
+    @Override
+    public String toString() {
+        return "file name: " + this.getFdf().getName() + "\nopt words: " + this.opt.toString() + "\ness words: " + this.ess.toString() + "\n";
+    }
 }
