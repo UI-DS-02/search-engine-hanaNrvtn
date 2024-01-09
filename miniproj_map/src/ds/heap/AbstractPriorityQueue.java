@@ -1,7 +1,5 @@
 package ds.heap;
 
-import ds.PriorityQueue;
-
 import java.util.Comparator;
 
 abstract class AbstractPriorityQueue<K, V> implements PriorityQueue<K, V> {
